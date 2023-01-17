@@ -34,7 +34,7 @@ const runErrorNotice = () => {
   noticeSection.appendChild(notification);
 };
 
-const requestingAPI = async () => {
+const requestingProductsList = async () => {
   try {
     runLoadNotice();
     const computerOptions = await fetchProductsList('computador');
@@ -46,4 +46,4 @@ const requestingAPI = async () => {
   }
 };
 
-requestingAPI();
+requestingProductsList();
