@@ -30,7 +30,7 @@ showListOfProducts(computerOptions);
 
 const removeNotice = () => {
   const paragraph = document.querySelector('.loading');
-  paragraph.innerText = '';
+  noticeSection.removeChild(paragraph);
 };
 
 removeNotice();
