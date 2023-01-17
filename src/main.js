@@ -8,16 +8,12 @@ const productSection = document.querySelector('.products');
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
-const runNotice = () => {
-  const newElement = document.createElement('p');
-  newElement.className = 'loading';
-  newElement.innerText = 'carregando...';
-  noticeSection.appendChild(newElement);
+const runLoadNotice = () => {
+  const notification = document.createElement('p');
+  notification.className = 'loading';
+  notification.innerText = 'carregando...';
+  noticeSection.appendChild(notification);
 };
-
-runNotice();
-
-const computerOptions = await fetchProductsList('computador');
 
 const showListOfProducts = (products) => {
   products.forEach((product) => {
@@ -26,11 +22,28 @@ const showListOfProducts = (products) => {
   });
 };
 
-showListOfProducts(computerOptions);
-
-const removeNotice = () => {
+const removeLoadNotice = () => {
   const paragraph = document.querySelector('.loading');
   noticeSection.removeChild(paragraph);
 };
 
-removeNotice();
+const runErrorNotice = () => {
+  const notification = document.createElement('p');
+  notification.className = 'error';
+  notification.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  noticeSection.appendChild(notification);
+};
+
+const requestingAPI = async () => {
+  try {
+    runLoadNotice();
+    const computerOptions = await fetchProductsList('computador');
+    showListOfProducts(computerOptions);
+    removeLoadNotice();
+  } catch (error) {
+    removeLoadNotice();
+    runErrorNotice();
+  }
+};
+
+requestingAPI();
