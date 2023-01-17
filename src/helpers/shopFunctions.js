@@ -95,11 +95,12 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
 // Função responsável por adicionar itens ao carrinho:
 // Adicionada aqui, pois o buttom Adicionar ao carrinho! será criado na função seguinte:
 const addItemToCart = async (event) => {
-  const cartProductsList = document.querySelector('.cart__products');
+  const cartProductsList = document.querySelector('ol.cart__products');
   // console.log(event.target.parentElement);
   const productID = getIdFromProduct(event.target.parentElement);
   const productData = await fetchProduct(productID);
-  cartProductsList.appendChild(createCartProductElement(productData));
+  const itemCartFormat = createCartProductElement(productData);
+  cartProductsList.appendChild(itemCartFormat);
 };
 
 /**
