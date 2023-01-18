@@ -98,8 +98,8 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
 // 2) Faz uso da getIdFromProduct que recebe um elemento pai do qual vai extrair o innerText da tag filha 'span.product__id';
 export const addItemToCart = async (event) => {
   const cartProductsList = document.querySelector('ol.cart__products');
-  // console.log(event.target.parentElement);
-  const productID = getIdFromProduct(event.target.parentElement);
+  // console.log(event.target.closest('.product'));
+  const productID = getIdFromProduct(event.target.closest('.product'));
   saveCartID(productID);
   const productData = await fetchProduct(productID);
   const itemCartFormat = createCartProductElement(productData);
