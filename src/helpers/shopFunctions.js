@@ -1,4 +1,4 @@
-import { removeCartID, saveCartID } from './cartFunctions';
+import { removeCartID, saveCartID, getSavedCartIDs } from './cartFunctions';
 import { fetchProduct } from './fetchFunctions';
 
 // Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,
@@ -141,4 +141,19 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
   cartButton.addEventListener('click', addItemToCart);
 
   return section;
+};
+
+const rescueLocalStorage = () => {
+  const cartProductsList = document.querySelector('ol.cart__products');
+  const savedID = getSavedCartIDs();
+  // console.log(savedID);
+  const result = savedID.map(async (productID) => {
+    const productData = await fetchProduct(productID);
+    const itemCartFormat = createCartProductElement(productData);
+    cartProductsList.appendChild(itemCartFormat);
+  });
+  return result;
+};
+window.onload = () => {
+  rescueLocalStorage();
 };
