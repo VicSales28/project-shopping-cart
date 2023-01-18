@@ -17,6 +17,7 @@ export const saveCartID = (id) => {
   const cartProducts = getSavedCartIDs();
   const newCartProducts = [...cartProducts, id];
   localStorage.setItem('cartProducts', JSON.stringify(newCartProducts));
+  console.log('ID do produto salvo em localStorage');
 };
 
 /**

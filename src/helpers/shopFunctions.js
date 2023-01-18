@@ -1,4 +1,4 @@
-import { removeCartID } from './cartFunctions';
+import { removeCartID, saveCartID } from './cartFunctions';
 import { fetchProduct } from './fetchFunctions';
 
 // Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,
@@ -93,11 +93,14 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
 };
 
 // Função responsável por adicionar itens ao carrinho:
-// Adicionada aqui, pois o buttom Adicionar ao carrinho! será criado na função seguinte:
-const addItemToCart = async (event) => {
+// Adicionada aqui, pois:
+// 1) Buttom Adicionar ao carrinho! será criado na função seguinte;
+// 2) Faz uso da getIdFromProduct que recebe um elemento pai do qual vai extrair o innerText da tag filha 'span.product__id';
+export const addItemToCart = async (event) => {
   const cartProductsList = document.querySelector('ol.cart__products');
   // console.log(event.target.parentElement);
   const productID = getIdFromProduct(event.target.parentElement);
+  saveCartID(productID);
   const productData = await fetchProduct(productID);
   const itemCartFormat = createCartProductElement(productData);
   cartProductsList.appendChild(itemCartFormat);
