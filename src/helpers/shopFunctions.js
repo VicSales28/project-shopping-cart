@@ -91,6 +91,8 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   li.addEventListener('click', () => removeCartProduct(li, id));
   return li;
 };
+// TESTE REQUISITO 10
+const getProductPrice = ({ price }) => price;
 
 // Função responsável por adicionar itens ao carrinho:
 // Adicionada aqui, pois:
@@ -104,6 +106,12 @@ export const addItemToCart = async (event) => {
   const productData = await fetchProduct(productID);
   const itemCartFormat = createCartProductElement(productData);
   cartProductsList.appendChild(itemCartFormat);
+
+  // TESTE REQUISITO 10
+  const totalPrice = document.querySelector('span.total-price');
+  const currentPrice = parseFloat(totalPrice.innerText);
+  const newPrice = currentPrice + parseFloat(getProductPrice(productData));
+  totalPrice.innerText = newPrice;
 };
 
 /**
