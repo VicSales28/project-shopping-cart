@@ -1,6 +1,5 @@
-// const cepInput = document.querySelector('cep-input');
-// const buttomCep = document.querySelector('cep-button cart-button');
-// const cartAdress = document.querySelector('cart__address');
+const cepInput = document.querySelector('.cep-input');
+const cartAdress = document.querySelector('.cart__address');
 
 export const request1stAPI = async (cep) => {
   // seu código aqui:
@@ -35,6 +34,25 @@ export const getAddress = async (cep) => {
   return data;
 };
 
-export const searchCep = () => {
+export const searchCep = async () => {
   // seu código aqui
+  try {
+    const data = await getAddress(cepInput.value);
+
+    if (data.code === 'invalid'
+      || data.code === 'not_found'
+      || data.type === 'service_error') {
+      throw new Error('Serviços de CEP retornaram erro.');
+    } else {
+      const street = `${data.address || data.street}`;
+      const district = `${data.district || data.neighborhhod}`;
+      const city = `${data.city}`;
+      const state = `${data.state}`;
+
+      cartAdress.innerText = `${street} - ${district} - ${city} - ${state}`;
+    }
+  } catch (error) {
+    cartAdress.innerHTML = 'CEP não encontrado';
+    console.log(error.message);
+  }
 };
