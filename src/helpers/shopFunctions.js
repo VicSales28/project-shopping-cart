@@ -1,17 +1,46 @@
 import { removeCartID, saveCartID, getSavedCartIDs } from './cartFunctions';
 import { fetchProduct } from './fetchFunctions';
 
-// Esses comentários que estão antes de cada uma das funções são chamados de JSdoc,
-// experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições!
+const cartProductsList = document.querySelector('ol.cart__products');
+const totalPrice = document.querySelector('span.total-price');
 
-// Fique a vontade para modificar o código já escrito e criar suas próprias funções!
+/*
+Função que retorna todos os preços de produtos salvos no localStorage.
+ */
+export const getSavedCartPrices = () => {
+  const pricesLocal = localStorage.getItem('prices');
+  return pricesLocal ? JSON.parse(pricesLocal) : [];
+};
+
+/*
+Função que salva preço de produto adicionado no Local Storage.
+*/
+export const saveCartPrice = (price) => {
+  if (!price) throw new Error('Você deve fornecer o preço de um item');
+
+  const pricesLocal = getSavedCartPrices();
+  const newCartPrices = [...pricesLocal, price];
+  localStorage.setItem('prices', JSON.stringify(newCartPrices));
+};
+
+/*
+Função que remove preço de produto removido do Local Storage.
+*/
+export const removeCartPrice = (price) => {
+  if (!price) throw new Error('Você deve fornecer o preço de um item');
+
+  const pricesLocal = [...getSavedCartPrices()];
+  const indexPrice = pricesLocal.indexOf(price);
+  pricesLocal.splice(indexPrice, 1);
+  localStorage.setItem('prices', JSON.stringify(pricesLocal));
+};
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
  * @returns {Element} Elemento de imagem do produto.
  */
-const createProductImageElement = (imageSource) => {
+export const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'product__image';
   img.src = imageSource.replace('I.jpg', 'O.jpg');
@@ -41,14 +70,26 @@ export const getIdFromProduct = (product) => (
   product.querySelector('span.product__id').innerText
 );
 
+/*
+Função responável por extrair apenas o preço do produto
+a partir do retorno da API.
+*/
+export const getProductPrice = ({ price }) => price;
+
 /**
  * Função que remove o produto do carrinho.
  * @param {Element} li - Elemento do produto a ser removido do carrinho.
  * @param {string} id - ID do produto a ser removido do carrinho.
  */
-const removeCartProduct = (li, id) => {
+export const removeCartProduct = async (li, id) => {
   li.remove();
   removeCartID(id);
+
+  const productData = await fetchProduct(id);
+  removeCartPrice(getProductPrice(productData));
+  const currentPrice = parseFloat(totalPrice.innerText);
+  const newPrice = (currentPrice - parseFloat(getProductPrice(productData))).toFixed(2);
+  totalPrice.innerText = newPrice;
 };
 
 /**
@@ -91,26 +132,22 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   li.addEventListener('click', () => removeCartProduct(li, id));
   return li;
 };
-// TESTE REQUISITO 10
-const getProductPrice = ({ price }) => price;
 
-// Função responsável por adicionar itens ao carrinho:
-// Adicionada aqui, pois:
-// 1) Buttom Adicionar ao carrinho! será criado na função seguinte;
-// 2) Faz uso da getIdFromProduct que recebe um elemento pai do qual vai extrair o innerText da tag filha 'span.product__id';
+/*
+Função responsável por adicionar item ao carrinho,
+salvar o id e o preço do item no Local Storage e
+calcular valor total do carrinho após adição de item.
+*/
 export const addItemToCart = async (event) => {
-  const cartProductsList = document.querySelector('ol.cart__products');
-  // console.log(event.target.closest('.product'));
   const productID = getIdFromProduct(event.target.closest('.product'));
   saveCartID(productID);
   const productData = await fetchProduct(productID);
   const itemCartFormat = createCartProductElement(productData);
   cartProductsList.appendChild(itemCartFormat);
 
-  // TESTE REQUISITO 10
-  const totalPrice = document.querySelector('span.total-price');
+  saveCartPrice(getProductPrice(productData));
   const currentPrice = parseFloat(totalPrice.innerText);
-  const newPrice = currentPrice + parseFloat(getProductPrice(productData));
+  const newPrice = (currentPrice + parseFloat(getProductPrice(productData))).toFixed(2);
   totalPrice.innerText = newPrice;
 };
 
@@ -151,10 +188,12 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
   return section;
 };
 
-const rescueLocalStorage = () => {
-  const cartProductsList = document.querySelector('ol.cart__products');
+/*
+Função responsável por realizar a consulta dos produtos salvos no Local Storage
+e carregá-los no carrinho de compras.
+*/
+export const rescueCartItens = () => {
   const savedID = getSavedCartIDs();
-  // console.log(savedID);
   const result = savedID.map(async (productID) => {
     const productData = await fetchProduct(productID);
     const itemCartFormat = createCartProductElement(productData);
@@ -162,6 +201,20 @@ const rescueLocalStorage = () => {
   });
   return result;
 };
+
+/*
+Função responsável por realizar a consulta dos preços salvos no Local Storage,
+somá-los e renderizar na tela como valor total do carrinho.
+*/
+export const rescueSumPrices = () => {
+  const pricesLocal = [...getSavedCartPrices()];
+  totalPrice.innerText = (pricesLocal.reduce((acc, curr) => acc + curr, 0)).toFixed(2);
+};
+
+/*
+Função responsável por trazer dados salvos no Local Storage quando a página é reiniciada.
+*/
 window.onload = () => {
-  rescueLocalStorage();
+  rescueCartItens();
+  rescueSumPrices();
 };
