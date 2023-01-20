@@ -1,39 +1,9 @@
-import { removeCartID, saveCartID, getSavedCartIDs } from './cartFunctions';
+import { removeCartID, saveCartID, getSavedCartIDs,
+  removeCartPrice, saveCartPrice, getSavedCartPrices } from './cartFunctions';
 import { fetchProduct } from './fetchFunctions';
 
 const cartProductsList = document.querySelector('ol.cart__products');
 const totalPrice = document.querySelector('span.total-price');
-
-/*
-Função que retorna todos os preços de produtos salvos no localStorage.
- */
-export const getSavedCartPrices = () => {
-  const pricesLocal = localStorage.getItem('prices');
-  return pricesLocal ? JSON.parse(pricesLocal) : [];
-};
-
-/*
-Função que salva preço de produto adicionado no Local Storage.
-*/
-export const saveCartPrice = (price) => {
-  if (!price) throw new Error('Você deve fornecer o preço de um item');
-
-  const pricesLocal = getSavedCartPrices();
-  const newCartPrices = [...pricesLocal, price];
-  localStorage.setItem('prices', JSON.stringify(newCartPrices));
-};
-
-/*
-Função que remove preço de produto removido do Local Storage.
-*/
-export const removeCartPrice = (price) => {
-  if (!price) throw new Error('Você deve fornecer o preço de um item');
-
-  const pricesLocal = [...getSavedCartPrices()];
-  const indexPrice = pricesLocal.indexOf(price);
-  pricesLocal.splice(indexPrice, 1);
-  localStorage.setItem('prices', JSON.stringify(pricesLocal));
-};
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -77,7 +47,7 @@ a partir do retorno da API.
 export const getProductPrice = ({ price }) => price;
 
 /**
- * Função que remove o produto do carrinho.
+ * Função que remove o produto do carrinho e calcula valor total do carrinho após remoção de item.
  * @param {Element} li - Elemento do produto a ser removido do carrinho.
  * @param {string} id - ID do produto a ser removido do carrinho.
  */

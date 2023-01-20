@@ -1,6 +1,9 @@
 const cepInput = document.querySelector('.cep-input');
 const cartAdress = document.querySelector('.cart__address');
 
+/*
+Esta função faz uma requisição para a primeira API de CEPs que será utilizada.
+ */
 export const request1stAPI = async (cep) => {
   // seu código aqui:
   const endpoint = `https://cep.awesomeapi.com.br/json/${cep}`;
@@ -13,6 +16,9 @@ export const request1stAPI = async (cep) => {
   }
 };
 
+/*
+Esta função faz uma requisição para a segunda API de CEPs que será utilizada.
+ */
 export const request2stAPI = async (cep) => {
   // seu código aqui:
   const endpoint = `https://brasilapi.com.br/api/cep/v2/${cep}`;
@@ -25,6 +31,9 @@ export const request2stAPI = async (cep) => {
   }
 };
 
+/*
+Esta função fará a requisição para 2 APIs de CEP diferentes e utiliza a que retornar primeiro.
+ */
 export const getAddress = async (cep) => {
   // seu código aqui
   const data = await Promise.any([
@@ -34,6 +43,10 @@ export const getAddress = async (cep) => {
   return data;
 };
 
+/*
+Esta função chama a getAddress com o CEP digitado no input e exibe o endereço completo na tela.
+Obs.: Caso ambas as APIs retornem erro, a função exibe o texto CEP não encontrado.
+ */
 export const searchCep = async () => {
   // seu código aqui
   try {
