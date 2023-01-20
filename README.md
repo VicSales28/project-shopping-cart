@@ -1,9 +1,5 @@
 # Shopping Cart 🛒 (TRYBE)
 
-```
-let message = 'Hello world';
-alert(message);
-```
 My first Front-end module project successfully completed. 🚀🚀🚀
 
 The main objective of this project was to develop a dynamic shopping cart 🛒, for which it was necessary to **request data directly from an API** of Mercado Livre Brasil.
