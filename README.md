@@ -6,6 +6,9 @@ The main objective of this project was to develop a dynamic shopping cart 🛒, 
 
 In addition, I performed ✨**test-driven development**✨, the famous TDD which was essential to build good quality code.
 
+Date of my best commit:
+January 20, 2023 at 7:51 am
+
 <details>
   <summary><strong>🏗 Project structure</strong></summary><br />
 
