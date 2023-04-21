@@ -1,10 +1,14 @@
-# Shopping Cart 🛒 (TRYBE)
+# Shopping Cart 🛒
 
-My first Front-end module project successfully completed. 🚀🚀🚀
+My first Front-end module project was successfully completed 🚀
 
-The main objective of this project was to develop a dynamic shopping cart 🛒, for which it was necessary to **request data directly from an API** of Mercado Livre Brasil.
+I developed it while I was studying asynchhronous JS at Trybe Programming School
 
-In addition, I performed ✨**test-driven development**✨ which was essential to build good quality code.
+The main objective of this project was to develop a dynamic shopping cart 🛒
+
+For that, it was necessary to **request data directly from an API** of Mercado Livre Brasil
+
+In addition, I performed ✨**test-driven development**✨ to build good quality code
 
 Regular deadline:
 January 26, 2023 at 14:00 am
@@ -14,7 +18,7 @@ January 26, 2023 at 14:00 am
 
 ### Files and Functions
 
-The `tests` folder, contains the `fetchProduct.test.js` and `fetchProductsList.test.js` files, where I implemented the tests for each of the functions of the same name.
+The `tests` folder contains the `fetchProduct.test.js` and `fetchProductsList.test.js` files where I implemented the tests for each of the functions of the same name.
 
 The `helpers` folder contains the `fetchFunctions.js` file, where I implemented the request for the APIs of Mercado Livre Brasil.
 
@@ -22,7 +26,7 @@ In `main.js`, I implemented the logic for the notification messages and render t
 
 In the `shopFunctions.js` file, I implemented the logic of adding items to the cart, saving their information in Local Storage and also removing products from the shopping cart.
 
-The `helpers` folder contains the `cartFunctions.js` file, where I implemented the logic of saving product prices in Local Storage.
+The `helpers` folder contains the `cartFunctions.js` file where I implemented the logic of saving product prices in Local Storage.
 
 In `cepFunctions.js`, I implemented the logic to query the users' postal address.
 
@@ -41,6 +45,27 @@ ESLint is a tool for identifying and reporting patterns found in ECMAScript/Java
 * ESLint uses Espree for JavaScript parsing.
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely 'pluggable', each of the rules is a plugin and you can add […]
+
+</details>
+
+<details>
+  <summary><strong>🖥️ To access</strong></summary><br />
+
+1 - Clone the repository:
+`git clone git@github.com:VicSales28/project-shopping-cart.git`
+
+2 - Enter the repository folder you just cloned.
+
+You must be using node version 16 (or higher).
+
+To check your version, use the command:
+`nvm --version`
+
+3 - With the required version, install the dependencies:
+`npm install`
+
+4 - To view the application, use the command:
+`npx vite --open`
 
 </details>
 
